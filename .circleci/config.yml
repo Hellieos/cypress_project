@@ -23,14 +23,14 @@ workflows:
           pkg-manager: npm
           pre-steps:
             - run:
-                name: Install Xvfb
+                name: Install Cypress Dependencies (Xvfb, libnss3, etc.)
                 command: |
                   sudo apt-get update
-                  sudo apt-get install -y xvfb
-                  libnss3 \
-                  libatk1.0-0 \
-                  libatk-bridge2.0-0 \
-                  libgtk-3-0 \
-                  libxss1 \
-                  libasound2 \
-                  xvfb
+                  sudo apt-get install -y \
+                    xvfb \
+                    libnss3 \
+                    libatk1.0-0 \
+                    libatk-bridge2.0-0 \
+                    libgtk-3-0 \
+                    libxss1 \
+                    libasound2
