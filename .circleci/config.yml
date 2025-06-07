@@ -21,3 +21,9 @@ workflows:
           version: '16.10'
           # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: npm
+          pre-steps:
+            - run:
+                name: Install Xvfb
+                command: |
+                  sudo apt-get update
+                  sudo apt-get install -y xvfb
