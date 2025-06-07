@@ -1,0 +1,56 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: cimg/node:16.10
+    steps:
+      - checkout
+
+      - run:
+          name: Install Cypress dependencies
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y \
+              xvfb \
+              libnss3 \
+              libatk1.0-0 \
+              libatk-bridge2.0-0 \
+              libgtk-3-0 \
+              libxss1 \
+              libasound2 \
+              libgbm1 \
+              openjdk-11-jre
+
+      - run:
+          name: Set JAVA_HOME
+          command: |
+            echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64' >> $BASH_ENV
+            echo 'export PATH=$JAVA_HOME/bin:$PATH' >> $BASH_ENV
+            source $BASH_ENV
+
+      - run:
+          name: Install Node dependencies
+          command: npm ci
+
+      - run:
+          name: Run Cypress Tests
+          command: xvfb-run -- npx cypress run
+
+      - run:
+          name: Generate Allure HTML Report
+          command: npx allure generate allure-results --clean -o allure-report
+
+      - store_artifacts:
+          path: allure-report
+          destination: allure-report
+
+      - store_artifacts:
+          path: allure-results
+          destination: allure-results
+
+workflows:
+  version: 2
+  test_and_build:
+    jobs:
+      - test
