@@ -34,3 +34,4 @@ workflows:
                     libgtk-3-0 \
                     libxss1 \
                     libasound2
+                    libgbm1
