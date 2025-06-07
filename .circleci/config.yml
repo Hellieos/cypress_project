@@ -22,12 +22,25 @@ jobs:
               libgbm1
 
       - run:
-          name: Install dependencies
+          name: Install Node dependencies
           command: npm ci
 
       - run:
-          name: Run Cypress
+          name: Run Cypress Tests
           command: xvfb-run -- npx cypress run
+
+      - run:
+          name: Generate Allure HTML Report
+          command: |
+            npx allure generate allure-results --clean -o allure-report
+
+      - store_artifacts:
+          path: allure-report
+          destination: allure-report
+
+      - store_artifacts:
+          path: allure-results
+          destination: allure-results
 
 workflows:
   version: 2
